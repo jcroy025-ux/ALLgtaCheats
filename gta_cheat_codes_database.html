@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Theft Auto Cheat Vault</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gta: {
+                            gold: '#facc15',
+                            green: '#22c55e',
+                            pink: '#ec4899',
+                            cyan: '#06b6d4',
+                            purple: '#a855f7',
+                            dark: '#0f172a',
+                            card: 'rgba(30, 41, 59, 0.7)',
+                            border: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styling for Neon Theme & Game Aesthetic */
+        body {
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #f8fafc;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(250, 204, 21, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(250, 204, 21, 0.15);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #eab308;
+        }
+
+        /* Controller Button Styling */
+        .btn-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin: 2px;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .btn-ps { background: #1e293b; color: #60a5fa; border: 1px solid #3b82f6; }
+        .btn-xbox { background: #14532d; color: #4ade80; border: 1px solid #22c55e; }
+        .btn-pc { background: #334155; color: #f1f5f9; border: 1px solid #64748b; font-family: monospace; }
+        .btn-phone { background: #78350f; color: #fde047; border: 1px solid #eab308; font-family: monospace; }
+
+        /* Game Accent Themes */
+        .theme-gta1 { --accent-color: #f59e0b; }
+        .theme-vc { --accent-color: #ec4899; }
+        .theme-sa { --accent-color: #22c55e; }
+        .theme-gta4 { --accent-color: #38bdf8; }
+        .theme-gta5 { --accent-color: #eab308; }
+
+        .active-tab {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(234, 179, 8, 0.05));
+            border-left: 4px solid #eab308;
+            color: #fef08a;
+        }
+
+        /* Toast animation */
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-animate {
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased text-slate-200">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden glass-panel bg-slate-900/90 text-yellow-400 px-5 py-3 rounded-xl border border-yellow-500/30 shadow-2xl flex items-center space-x-3 toast-animate">
+        <i class="fa-solid fa-check-circle text-lg text-yellow-400"></i>
+        <span id="toast-msg" class="font-semibold text-sm">Cheat copied to clipboard!</span>
+    </div>
+
+    <!-- Top Header Navigation -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Brand / Logo -->
+            <div class="flex items-center space-x-3 w-full md:w-auto justify-between">
+                <div class="flex items-center space-x-3">
+                    <button id="mobile-menu-btn" class="lg:hidden text-slate-400 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <div class="bg-gradient-to-tr from-yellow-500 to-amber-300 text-slate-950 p-2 rounded-lg font-black text-xl tracking-tighter font-orbitron shadow-lg shadow-yellow-500/20">
+                        GTA
+                    </div>
+                    <div>
+                        <h1 class="font-orbitron font-extrabold text-lg tracking-wider text-white flex items-center gap-2">
+                            CHEAT VAULT <span class="text-xs px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-400 font-mono border border-yellow-500/30">DB v2.6</span>
+                        </h1>
+                        <p class="text-xs text-slate-400 font-medium">All Grand Theft Auto Cheat Codes (1997–2026)</p>
+                    </div>
+                </div>
+
+                <!-- Global Search on Mobile -->
+                <button id="favorites-quick-btn" onclick="switchGame('favorites')" class="md:hidden px-3 py-1.5 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/30 text-xs font-semibold flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="fav-count-mobile">0</span>
+                </button>
+            </div>
+
+            <!-- Search Bar & Favorites Toggle -->
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="search-input" placeholder="Search codes, vehicles, weapons..." 
+                        class="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700/60 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all">
+                    <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <button onclick="switchGame('favorites')" class="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500/20 to-rose-500/20 hover:from-pink-500/30 hover:to-rose-500/30 border border-pink-500/30 text-pink-300 font-semibold text-sm transition-all shadow-md">
+                    <i class="fa-solid fa-heart text-pink-500"></i>
+                    <span>Favorites</span>
+                    <span id="fav-count" class="bg-pink-500/30 text-pink-200 text-xs px-2 py-0.5 rounded-full font-mono">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="flex-1 max-w-7xl w-full mx-auto flex flex-col lg:flex-row relative">
+        
+        <!-- Sidebar Navigation (Game List) -->
+        <aside id="sidebar" class="fixed lg:sticky top-[65px] left-0 h-[calc(100vh-65px)] w-72 glass-panel border-r border-slate-800/80 z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto p-4 flex flex-col justify-between">
+            <div class="space-y-6">
+                <div>
+                    <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider font-orbitron mb-2">GTA Franchise Games</p>
+                    <nav id="game-tabs-container" class="space-y-1">
+                        <!-- Navigation tabs loaded dynamically -->
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Side Footer -->
+            <div class="pt-4 mt-6 border-t border-slate-800/60 text-center">
+                <p class="text-xs text-slate-500">Achievement Warning Notice</p>
+                <div class="mt-2 text-[11px] text-amber-400/80 bg-amber-500/10 p-2.5 rounded-lg border border-amber-500/20 leading-relaxed text-left">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                    Activating cheats usually disables Trophies/Achievements for your current play session. Always save your game before cheat use!
+                </div>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay on Mobile -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-slate-950/80 z-20 hidden lg:hidden backdrop-blur-sm"></div>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-4 lg:p-8 min-w-0">
+            
+            <!-- Game Title Banner -->
+            <div class="glass-panel p-6 rounded-2xl mb-6 relative overflow-hidden border border-slate-800">
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none font-orbitron text-9xl font-black italic select-none text-white" id="banner-bg-text">
+                    GTA V
+                </div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-1">
+                            <span id="game-year" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-yellow-400 border border-slate-700 font-mono">2013</span>
+                            <span id="game-platforms-list" class="text-xs text-slate-400 font-medium">PC • PS5 • PS4 • PS3 • Xbox Series • Xbox 360</span>
+                        </div>
+                        <h2 id="game-title" class="text-3xl lg:text-4xl font-black font-orbitron tracking-tight text-white drop-shadow-md">
+                            Grand Theft Auto V
+                        </h2>
+                        <p id="game-desc" class="text-sm text-slate-400 mt-1 max-w-2xl">
+                            Enter text codes, dial cell phone numbers, or execute button combos to instantly unlock weapons, super abilities, and vehicles across Los Santos.
+                        </p>
+                    </div>
+
+                    <!-- Platform Selector (If Applicable) -->
+                    <div id="platform-selector-wrapper" class="flex flex-col space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-rajdhani">Select Platform</label>
+                        <div id="platform-buttons" class="inline-flex p-1 bg-slate-900/90 rounded-xl border border-slate-700/60 shadow-inner flex-wrap gap-1">
+                            <!-- Dynamic Platform Buttons -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex items-center justify-between gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar">
+                <div id="category-filters" class="flex items-center space-x-2">
+                    <!-- Filter buttons injected dynamically -->
+                </div>
+                
+                <div id="cheat-counter" class="text-xs font-mono text-slate-400 whitespace-nowrap bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                    Showing <span id="count-num" class="text-yellow-400 font-bold">0</span> cheats
+                </div>
+            </div>
+
+            <!-- Cheats Grid -->
+            <div id="cheats-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+                <!-- Cheat cards rendered dynamically -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden glass-panel p-12 rounded-2xl text-center my-8">
+                <i class="fa-solid fa-ghost text-5xl text-slate-600 mb-4"></i>
+                <h3 class="text-xl font-bold font-orbitron text-slate-300 mb-1">No Cheats Found</h3>
+                <p class="text-sm text-slate-500 max-w-md mx-auto">We couldn't find any cheat matching your search query or category filter. Try clearing your search.</p>
+                <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-sm rounded-xl transition-all">
+                    Reset All Filters
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // Comprehensive GTA Cheat Database
+        const gtaDatabase = {
+            "gta1": {
+                id: "gta1",
+                title: "GTA I",
+                year: "1997",
+                platforms: ["PC", "PS1"],
+                bgText: "GTA I",
+                accent: "yellow",
+                desc: "Enter these codes as your character name before beginning a match to unlock bonus abilities or level selects.",
+                cheats: [
+                    { id: "gta1-1", title: "All Weapons & Ammo", category: "Weapons", code: { PC: "GROOVY", PS1: "Press Select, Select, R1, L2, L1, R2" }, desc: "Gives max ammo and all weapons." },
+                    { id: "gta1-2", title: "99 Lives / Infinite Lives", category: "Player", code: { PC: "6031769", PS1: "Triangle, Triangle, Circle, Square" }, desc: "Increases starting lives dramatically." },
+                    { id: "gta1-3", title: "Max Score ($9,999,999)", category: "Player", code: { PC: "IAMDUL", PS1: "Circle, Square, R1, L1, L2" }, desc: "Sets money score to maximum." },
+                    { id: "gta1-4", title: "Unlock All Cities", category: "World", code: { PC: "NINEINCH", PS1: "R1, R2, L1, L2, Up, Down" }, desc: "Unlocks Liberty City, San Andreas, and Vice City." },
+                    { id: "gta1-5", title: "Armor & Multiplier", category: "Player", code: { PC: "BUCKFAST", PS1: "L1, L2, R1, R2, Square" }, desc: "Gives full body armor and maximum multiplier." },
+                    { id: "gta1-6", title: "No Police Wanted Level", category: "Wanted Level", code: { PC: "EATSTARBURST", PS1: "L1, L1, R1, R1, Up, Down" }, desc: "Police ignore all crimes." }
+                ]
+            },
+            "london": {
+                id: "london",
+                title: "GTA: London 1969 / 1961",
+                year: "1999",
+                platforms: ["PC", "PS1"],
+                bgText: "1969",
+                accent: "cyan",
+                desc: "Enter codes as your player profile name in retro British style.",
+                cheats: [
+                    { id: "lon-1", title: "All Weapons & Armor", category: "Weapons", code: { PC: "NUTTER", PS1: "Square, Circle, R1, L1, L2, R2" }, desc: "Grants full arsenal and max body armor." },
+                    { id: "lon-2", title: "Infinite Lives", category: "Player", code: { PC: "LOVELY", PS1: "L1, L1, R1, R1, Circle, Circle" }, desc: "Never lose lives upon death." },
+                    { id: "lon-3", title: "All Levels Unlocked", category: "World", code: { PC: "TRAVEL", PS1: "Triangle, Triangle, L1, R1, Square" }, desc: "Select any mission level." },
+                    { id: "lon-4", title: "Maximum Multiplier", category: "Player", code: { PC: "FLASH", PS1: "R2, R2, L2, L2, Up, Up" }, desc: "Multiplies score earnings to maximum x10." }
+                ]
+            },
+            "gta2": {
+                id: "gta2",
+                title: "GTA II",
+                year: "1999",
+                platforms: ["PC", "PS1", "Dreamcast"],
+                bgText: "GTA II",
+                accent: "purple",
+                desc: "Enter 'GURANTEE' or 'NAKEDNORMAL' first as player name depending on platform, then use these cheat codes.",
+                cheats: [
+                    { id: "gta2-1", title: "All Weapons", category: "Weapons", code: { PC: "GABBA", PS1: "L1, R1, L1, R2, Square, Circle", Dreamcast: "Up, Up, Down, Down, Left, Right" }, desc: "Unlocks machine guns, rocket launchers, and flame throwers." },
+                    { id: "gta2-2", title: "Infinite Health / Invincibility", category: "Player", code: { PC: "LIVELONG", PS1: "Square, Square, Circle, L1, R1", Dreamcast: "L, R, L, R, X, Y" }, desc: "Player cannot be killed by bullets or explosions." },
+                    { id: "gta2-3", title: "$200,000 Cash", category: "Player", code: { PC: "MUCHCASH", PS1: "R1, R2, L1, L2, Up, Left", Dreamcast: "Up, Right, Down, Left, X" }, desc: "Instantly adds $200k to bank." },
+                    { id: "gta2-4", title: "No Police", category: "Wanted Level", code: { PC: "LOSEFuzz", PS1: "Circle, Circle, Circle, L1, L2", Dreamcast: "Left, Left, Right, Right, B" }, desc: "Clears police interest entirely." },
+                    { id: "gta2-5", title: "Select Any Level", category: "World", code: { PC: "ITSALLUP", PS1: "Up, Down, Left, Right, Triangle", Dreamcast: "Y, X, B, A, Up" }, desc: "Access any city zone directly." }
+                ]
+            },
+            "gta3": {
+                id: "gta3",
+                title: "GTA III",
+                year: "2001",
+                platforms: ["PC", "PS2", "Xbox"],
+                bgText: "GTA III",
+                accent: "cyan",
+                desc: "Type text directly while playing on PC, or enter button sequences rapidly on consoles.",
+                cheats: [
+                    { id: "gta3-1", title: "All Weapons", category: "Weapons", code: { PC: "GUNSGUNSGUNS", PS2: "R2, R2, L1, R2, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "RT, RT, LT, RT, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Unlocks all weapons with maximum ammunition." },
+                    { id: "gta3-2", title: "Full Health", category: "Player", code: { PC: "GESUNDHEIT", PS2: "R2, L1, R1, L1, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "RT, LT, ST, LT, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Restores health meter to 100% and repairs current vehicle." },
+                    { id: "gta3-3", title: "Full Armor", category: "Player", code: { PC: "TORTOISE", PS2: "R2, R2, L1, L2, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "RT, RT, LT, LB, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Restores armor meter to 100%." },
+                    { id: "gta3-4", title: "Receive $250,000 Cash", category: "Player", code: { PC: "IFIWEREARICHMAN", PS2: "R2, R2, L1, L1, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "RT, RT, LT, LT, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Adds $250,000 cash instantly." },
+                    { id: "gta3-5", title: "Raise Wanted Level", category: "Wanted Level", code: { PC: "MOREPOLICEPLEASE", PS2: "R2, R2, L1, R2, Left, Right, Left, Right, Left, Right", Xbox: "RT, RT, LT, RT, Left, Right, Left, Right, Left, Right" }, desc: "Adds 2 stars to wanted meter." },
+                    { id: "gta3-6", title: "Clear Wanted Level", category: "Wanted Level", code: { PC: "NOPOLICEPLEASE", PS2: "R2, R2, L1, R2, Up, Down, Up, Down, Up, Down", Xbox: "RT, RT, LT, RT, Up, Down, Up, Down, Up, Down" }, desc: "Removes all wanted stars." },
+                    { id: "gta3-7", title: "Spawn Rhino Tank", category: "Vehicles", code: { PC: "GIVEUSATANK", PS2: "Circle, Circle, Circle, Circle, Circle, Circle, R1, L2, L1, Triangle, Circle, Triangle", Xbox: "B, B, B, B, B, B, ST, LB, LT, Y, B, Y" }, desc: "Spawns a heavy military tank right in front of Claude." },
+                    { id: "gta3-8", title: "Destroy All Cars", category: "Fun", code: { PC: "BANGBANGBANG", PS2: "L2, R2, L1, R1, L2, R2, Triangle, Square, Circle, Triangle, L2, L1", Xbox: "LB, RT, LT, ST, LB, RT, Y, X, B, Y, LB, LT" }, desc: "Explodes every vehicle nearby." }
+                ]
+            },
+            "gtavc": {
+                id: "gtavc",
+                title: "GTA: Vice City",
+                year: "2002",
+                platforms: ["PC", "PS2", "Xbox", "Switch"],
+                bgText: "VICE CITY",
+                accent: "pink",
+                desc: "Soak in the 80s synthwave vibe while unleashing weapon packs, flying cars, and tank spawns.",
+                cheats: [
+                    { id: "vc-1", title: "Weapon Set 1 (Heavy)", category: "Weapons", code: { PC: "THUGSTOOLS", PS2: "R1, R2, L1, R2, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "ST, RT, LT, RT, Left, Down, Right, Up, Left, Down, Right, Up", Switch: "R, ZR, L, ZR, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Brass knuckles, Baseball bat, Molotov, Pistol, Shotgun, Tec-9, Ruger, Sniper." },
+                    { id: "vc-2", title: "Weapon Set 2 (Professional)", category: "Weapons", code: { PC: "PROFESSIONALTOOLS", PS2: "R1, R2, L1, R2, Left, Down, Right, Down, Left, Down, Right, Up", Xbox: "ST, RT, LT, RT, Left, Down, Right, Down, Left, Down, Right, Up", Switch: "R, ZR, L, ZR, Left, Down, Right, Down, Left, Down, Right, Up" }, desc: "Katana, Grenades, Python, Short Shotgun, MP5, M4, Rocket Launcher, Sniper." },
+                    { id: "vc-3", title: "Weapon Set 3 (Nutter)", category: "Weapons", code: { PC: "NUTTERTOOLS", PS2: "R1, R2, L1, R2, Left, Down, Right, Down, Down, Down", Xbox: "ST, RT, LT, RT, Left, Down, Right, Down, Down, Down", Switch: "R, ZR, L, ZR, Left, Down, Right, Down, Down, Down" }, desc: "Chainsaw, Grenades, Python, Spas-12, MP5, M4, Minigun, Laser Sniper." },
+                    { id: "vc-4", title: "Full Health & Repair Vehicle", category: "Player", code: { PC: "ASPIRINE", PS2: "R1, R2, L1, Circle, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "ST, RT, LT, B, Left, Down, Right, Up, Left, Down, Right, Up", Switch: "R, ZR, L, A, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Restores health meter and repairs Tommy's car." },
+                    { id: "vc-5", title: "Full Armor", category: "Player", code: { PC: "PRECIOUSPROTECTION", PS2: "R1, R2, L1, X, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "ST, RT, LT, A, Left, Down, Right, Up, Left, Down, Right, Up", Switch: "R, ZR, L, B, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Restores armor to 100%." },
+                    { id: "vc-6", title: "Spawn Rhino Tank", category: "Vehicles", code: { PC: "PANZER", PS2: "Circle, Circle, L1, Circle, Circle, Circle, L1, L2, R1, Triangle, Circle, Triangle", Xbox: "B, B, LT, B, B, B, LT, LB, ST, Y, B, Y", Switch: "A, A, L, A, A, A, L, ZL, R, X, A, X" }, desc: "Spawns Rhino tank." },
+                    { id: "vc-7", title: "Spawn Bloodring Banger", category: "Vehicles", code: { PC: "TRAVELINSTYLE", PS2: "R1, Circle, R2, Right, L1, L2, X, X, Square, R1", Xbox: "ST, B, RT, Right, LT, LB, A, A, X, ST", Switch: "R, A, ZR, Right, L, ZL, B, B, Y, R" }, desc: "Spawns demolition derby car." },
+                    { id: "vc-8", title: "Cars Fly", category: "Fun", code: { PC: "COMEFLYWITHME", PS2: "Right, R2, Circle, R1, L2, Down, L1, R1", Xbox: "Right, RT, B, ST, LB, Down, LT, ST", Switch: "Right, ZR, A, R, ZL, Down, L, R" }, desc: "Allows vehicles to take flight like airplanes." }
+                ]
+            },
+            "gtasa": {
+                id: "gtasa",
+                title: "GTA: San Andreas",
+                year: "2004",
+                platforms: ["PC", "PS2", "Xbox", "PS4/PS5", "Switch"],
+                bgText: "SAN ANDREAS",
+                accent: "green",
+                desc: "Huge collection of cheats including jetpacks, infinite ammo, hydra jets, and riot modes.",
+                cheats: [
+                    { id: "sa-1", title: "Health, Armor & $250k Cash", category: "Player", code: { PC: "HESOYAM", PS2: "R1, R2, L1, X, Left, Down, Right, Up, Left, Down, Right, Up", Xbox: "RB, RT, LB, A, Left, Down, Right, Up, Left, Down, Right, Up", Switch: "R, ZR, L, B, Left, Down, Right, Up, Left, Down, Right, Up" }, desc: "Full health, max armor, $250,000 cash, and repairs car." },
+                    { id: "sa-2", title: "Spawn Jetpack", category: "Vehicles", code: { PC: "ROCKETMAN", PS2: "L1, L2, R1, R2, Up, Down, Left, Right, L1, L2, R1, R2, Up, Down, Left, Right", Xbox: "LB, LT, RB, RT, Up, Down, Left, Right, LB, LT, RB, RT, Up, Down, Left, Right", Switch: "L, ZL, R, ZR, Up, Down, Left, Right, L, ZL, R, ZR, Up, Down, Left, Right" }, desc: "Spawns personal Jetpack immediately." },
+                    { id: "sa-3", title: "Infinite Ammo", category: "Weapons", code: { PC: "FULLCLIP", PS2: "L1, R1, Square, R1, Left, R2, R1, Left, Square, Down, L1, L1", Xbox: "LB, RB, X, RB, Left, RT, RB, Left, X, Down, LB, LB", Switch: "L, R, Y, R, Left, ZR, R, Left, Y, Down, L, L" }, desc: "Never run out of ammunition or need to reload." },
+                    { id: "sa-4", title: "Spawn Hydra Fighter Jet", category: "Vehicles", code: { PC: "JUMPJET", PS2: "Triangle, Triangle, Square, Circle, X, L1, L1, Down, Up", Xbox: "Y, Y, X, B, A, LB, LB, Down, Up", Switch: "X, X, Y, A, B, L, L, Down, Up" }, desc: "Spawns military Hydra supersonic jet." },
+                    { id: "sa-5", title: "Spawn Rhino Tank", category: "Vehicles", code: { PC: "AIWPRTON", PS2: "Circle, Circle, L1, Circle, Circle, Circle, L1, L2, R1, Triangle, Circle, Triangle", Xbox: "B, B, LB, B, B, B, LB, LT, RB, Y, B, Y", Switch: "A, A, L, A, A, A, L, ZL, R, X, A, X" }, desc: "Spawns Rhino army tank." },
+                    { id: "sa-6", title: "Never Wanted / Zero Wanted", category: "Wanted Level", code: { PC: "AEZAKMI", PS2: "Circle, Right, Circle, Right, Left, Square, Triangle, Up", Xbox: "B, Right, B, Right, Left, X, Y, Up", Switch: "A, Right, A, Right, Left, Y, X, Up" }, desc: "Police will never pursue or lock onto CJ." },
+                    { id: "sa-7", title: "Six Star Wanted Level", category: "Wanted Level", code: { PC: "BRINGITON", PS2: "Circle, Right, Circle, Right, Left, Square, X, Down", Xbox: "B, Right, B, Right, Left, X, A, Down", Switch: "A, Right, A, Right, Left, Y, B, Down" }, desc: "Instantly sets wanted level to 6 stars." },
+                    { id: "sa-8", title: "Super Jump", category: "Player", code: { PC: "KANGAROO", PS2: "Up, Up, Triangle, Triangle, Up, Up, Left, Right, Square, R2, R2", Xbox: "Up, Up, Y, Y, Up, Up, Left, Right, X, RT, RT", Switch: "Up, Up, X, X, Up, Up, Left, Right, Y, ZR, ZR" }, desc: "CJ jumps 10 times higher than usual." }
+                ]
+            },
+            "gtaadv": {
+                id: "gtaadv",
+                title: "GTA Advance",
+                year: "2004",
+                platforms: ["GBA"],
+                bgText: "ADVANCE",
+                accent: "purple",
+                desc: "Game Boy Advance handheld cheat combinations.",
+                cheats: [
+                    { id: "adv-1", title: "All Weapons", category: "Weapons", code: { GBA: "Hold L + R, Press Left, Right, Up, Down, A, B" }, desc: "Grants full weapon inventory." },
+                    { id: "adv-2", title: "Full Health & Armor", category: "Player", code: { GBA: "Hold L + R, Press Up, Down, Left, Right, A, A" }, desc: "Restores Mike's health and armor meters." },
+                    { id: "adv-3", title: "$15,000 Cash", category: "Player", code: { GBA: "Hold L + R, Press Up, Down, Left, Right, B, B" }, desc: "Gives extra funds." },
+                    { id: "adv-4", title: "Clear Wanted Level", category: "Wanted Level", code: { GBA: "Hold L + R, Press Left, Right, Up, Down, B, A" }, desc: "Removes police heat." }
+                ]
+            },
+            "gtalcs": {
+                id: "gtalcs",
+                title: "GTA: Liberty City Stories",
+                year: "2005",
+                platforms: ["PSP", "PS2"],
+                bgText: "LCS",
+                accent: "cyan",
+                desc: "Button combinations for Toni Cipriani's adventure in Liberty City.",
+                cheats: [
+                    { id: "lcs-1", title: "Weapon Set 1", category: "Weapons", code: { PSP: "Up, Square, Square, Down, Left, Square, Square, Right", PS2: "Up, Square, Square, Down, Left, Square, Square, Right" }, desc: "Brass knuckles, Knife, Molotov, Pistol, Shotgun, Tec-9, AK-47, Sniper." },
+                    { id: "lcs-2", title: "Full Health & Repair Car", category: "Player", code: { PSP: "L1, R1, X, L1, R1, Square, L1, R1", PS2: "L1, R1, X, L1, R1, Square, L1, R1" }, desc: "Restores health and fixes current vehicle." },
+                    { id: "lcs-3", title: "$250,000 Cash", category: "Player", code: { PSP: "L1, R1, Triangle, L1, R1, Circle, L1, R1", PS2: "L1, R1, Triangle, L1, R1, Circle, L1, R1" }, desc: "Instantly awards $250k." },
+                    { id: "lcs-4", title: "Spawn Rhino Tank", category: "Vehicles", code: { PSP: "L1, L1, Left, L1, L1, Right, Triangle, Circle", PS2: "L1, L1, Left, L1, L1, Right, Triangle, Circle" }, desc: "Spawns heavy army tank." },
+                    { id: "lcs-5", title: "Clear Wanted Level", category: "Wanted Level", code: { PSP: "L1, L1, Triangle, R1, R1, X, Square, Circle", PS2: "L1, L1, Triangle, R1, R1, X, Square, Circle" }, desc: "Removes all wanted stars." }
+                ]
+            },
+            "gtavcs": {
+                id: "gtavcs",
+                title: "GTA: Vice City Stories",
+                year: "2006",
+                platforms: ["PSP", "PS2"],
+                bgText: "VCS",
+                accent: "pink",
+                desc: "Enter button combos on PSP or PS2 to help Vic Vance rule Vice City.",
+                cheats: [
+                    { id: "vcs-1", title: "Weapon Set 1", category: "Weapons", code: { PSP: "Left, Right, X, Up, Down, Square, Left, Right", PS2: "Left, Right, X, Up, Down, Square, Left, Right" }, desc: "Basic firearm package." },
+                    { id: "vcs-2", title: "Full Health", category: "Player", code: { PSP: "Up, Down, Left, Right, Circle, Circle, L1, R1", PS2: "Up, Down, Left, Right, Circle, Circle, L1, R1" }, desc: "Refills health bar." },
+                    { id: "vcs-3", title: "Full Armor", category: "Player", code: { PSP: "Up, Down, Left, Right, Square, Square, L1, R1", PS2: "Up, Down, Left, Right, Square, Square, L1, R1" }, desc: "Refills body armor bar." },
+                    { id: "vcs-4", title: "Spawn Rhino Tank", category: "Vehicles", code: { PSP: "Up, L1, Down, R1, Left, L1, Right, R1", PS2: "Up, L1, Down, R1, Left, L1, Right, R1" }, desc: "Spawns tank nearby." },
+                    { id: "vcs-5", title: "$250,000 Cash", category: "Player", code: { PSP: "Up, Down, Left, Right, X, X, L1, R1", PS2: "Up, Down, Left, Right, X, X, L1, R1" }, desc: "Adds $250k cash." }
+                ]
+            },
+            "gta4": {
+                id: "gta4",
+                title: "GTA IV & Episodes",
+                year: "2008",
+                platforms: ["Phone", "PC", "PS3", "Xbox 360"],
+                bgText: "GTA IV",
+                accent: "cyan",
+                desc: "Pull out Niko, Johnny, or Luis's cell phone and dial numbers directly to activate cheats.",
+                cheats: [
+                    { id: "gta4-1", title: "Full Health, Armor & Ammo", category: "Player", code: { Phone: "482-555-0100" }, desc: "Restores health, armor, and refills ammunition." },
+                    { id: "gta4-2", title: "Advanced Weapons Pack", category: "Weapons", code: { Phone: "486-555-0150" }, desc: "Knife, Molotovs, Desert Eagle, Combat Shotgun, MP5, M4, Sniper, RPG." },
+                    { id: "gta4-3", title: "Lower Wanted Level", category: "Wanted Level", code: { Phone: "267-555-0100" }, desc: "Removes wanted stars one level at a time." },
+                    { id: "gta4-4", title: "Raise Wanted Level", category: "Wanted Level", code: { Phone: "267-555-0150" }, desc: "Adds one star to Niko's wanted level." },
+                    { id: "gta4-5", title: "Spawn Annihilator Police Heli", category: "Vehicles", code: { Phone: "359-555-0100" }, desc: "Spawns armed police attack helicopter." },
+                    { id: "gta4-6", title: "Spawn Comet Sports Car", category: "Vehicles", code: { Phone: "227-555-0175" }, desc: "Spawns fast Comet sports car." },
+                    { id: "gta4-7", title: "Spawn FIB Buffalo", category: "Vehicles", code: { Phone: "227-555-0100" }, desc: "Spawns federal agent FIB Buffalo vehicle." },
+                    { id: "gta4-8", title: "Spawn Buzzard Attack Heli (TBOGT)", category: "Vehicles", code: { Phone: "359-555-2899" }, desc: "Exclusive to The Ballad of Gay Tony expansion." }
+                ]
+            },
+            "gtacw": {
+                id: "gtacw",
+                title: "GTA: Chinatown Wars",
+                year: "2009",
+                platforms: ["DS", "PSP", "iOS/Android"],
+                bgText: "CW",
+                accent: "gold",
+                desc: "Enter button sequences on handheld buttons or touch interface.",
+                cheats: [
+                    { id: "cw-1", title: "Weapon Pack 1", category: "Weapons", code: { DS: "R, Up, B, Down, Left, R, B, Right", PSP: "R, Up, X, Down, Left, R, X, Right" }, desc: "Grasper, Pistol, Minigun, Assault Rifle, Flamethrower." },
+                    { id: "cw-2", title: "Weapon Pack 2", category: "Weapons", code: { DS: "R, Up, A, Down, Left, R, A, Right", PSP: "R, Up, Circle, Down, Left, R, Circle, Right" }, desc: "Heavy weapons pack." },
+                    { id: "cw-3", title: "Full Health", category: "Player", code: { DS: "L, L, R, A, A, B, B, R", PSP: "L, L, R, Circle, Circle, X, X, R" }, desc: "Restores health bar." },
+                    { id: "cw-4", title: "Full Armor", category: "Player", code: { DS: "L, L, R, B, B, A, A, R", PSP: "L, L, R, X, X, Circle, Circle, R" }, desc: "Restores armor protection." },
+                    { id: "cw-5", title: "Explosive Bullet Rounds", category: "Weapons", code: { DS: "L, R, X, Y, A, B, Up, Down", PSP: "L, R, Square, Triangle, Circle, X, Up, Down" }, desc: "Gives explosive projectile force to gunshots." }
+                ]
+            },
+            "gta5": {
+                id: "gta5",
+                title: "GTA V",
+                year: "2013",
+                platforms: ["Phone", "PC", "PS5/PS4/PS3", "Xbox Series/One/360"],
+                bgText: "GTA V",
+                accent: "gold",
+                desc: "Use cell phone numbers, PC console text commands (~ key), or controller button sequences.",
+                cheats: [
+                    { id: "gta5-1", title: "Invincibility (5 Minutes)", category: "Player", code: { Phone: "1-999-726-54553", PC: "PAINKILLER", PS: "Right, X, Right, Left, Right, R1, Right, Left, X, Triangle", Xbox: "Right, A, Right, Left, Right, RB, Right, Left, A, Y" }, desc: "Takes zero damage for 5 minutes." },
+                    { id: "gta5-2", title: "Max Health & Armor", category: "Player", code: { Phone: "1-999-887-853", PC: "TURTLE", PS: "Circle, L1, Triangle, R2, X, Square, Circle, Right, Square, L1, L1, L1", Xbox: "B, LB, Y, RT, A, X, B, Right, X, LB, LB, LB" }, desc: "Full health and maximum armor restoration." },
+                    { id: "gta5-3", title: "Give All Weapons & Ammo", category: "Weapons", code: { Phone: "1-999-866-587", PC: "TOOLUP", PS: "Triangle, R2, Left, L1, X, Right, Triangle, Down, Square, L1, L1, L1", Xbox: "Y, RT, Left, LB, A, Right, Y, Down, X, LB, LB, LB" }, desc: "Pistol, Shotgun, SMG, Assault Rifle, Sniper, RPG, Grenades." },
+                    { id: "gta5-4", title: "Super Jump", category: "Player", code: { Phone: "1-999-787-3783", PC: "HOPTOIT", PS: "Left, Left, Triangle, Triangle, Right, Right, Left, Right, Square, R1, R2", Xbox: "Left, Left, Y, Y, Right, Right, Left, Right, X, RB, RT" }, desc: "Launch high into the sky when jumping." },
+                    { id: "gta5-5", title: "Fast Run", category: "Player", code: { Phone: "1-999-228-8463", PC: "CATCHME", PS: "Triangle, Left, Right, Right, L2, L1, Square", Xbox: "Y, Left, Right, Right, LT, LB, X" }, desc: "Increases sprint speed significantly." },
+                    { id: "gta5-6", title: "Lower Wanted Level", category: "Wanted Level", code: { Phone: "1-999-529-93787", PC: "LAWYERUP", PS: "R1, R1, Circle, R2, Right, Left, Right, Left, Right, Left", Xbox: "RB, RB, B, RT, Right, Left, Right, Left, Right, Left" }, desc: "Reduces police search stars by 1." },
+                    { id: "gta5-7", title: "Raise Wanted Level", category: "Wanted Level", code: { Phone: "1-999-386-76294", PC: "FUGITIVE", PS: "R1, R1, Circle, R2, Left, Right, Left, Right, Left, Right", Xbox: "RB, RB, B, RT, Left, Right, Left, Right, Left, Right" }, desc: "Increases police search stars by 1." },
+                    { id: "gta5-8", title: "Spawn Buzzard Attack Heli", category: "Vehicles", code: { Phone: "1-999-289-9633", PC: "BUZZOFF", PS: "Circle, Circle, L1, Circle, Circle, Circle, L1, L2, R1, Triangle, Circle, Triangle", Xbox: "B, B, LB, B, B, B, LB, LT, RB, Y, B, Y" }, desc: "Spawns armed Buzzard military helicopter." },
+                    { id: "gta5-9", title: "Spawn Comet Sports Car", category: "Vehicles", code: { Phone: "1-999-266-38", PC: "COMET", PS: "R1, Circle, R2, Right, L1, L2, X, X, Square, R1", Xbox: "RB, B, RT, Right, LB, LT, A, A, X, RB" }, desc: "Spawns fast Comet sports car." },
+                    { id: "gta5-10", title: "Skyfall (Parachute Freefall)", category: "Fun", code: { Phone: "1-999-759-3255", PC: "SKYFALL", PS: "L1, L2, R1, R2, Left, Right, Left, Right, L1, L2, R1, R2, Left, Right, Left, Right", Xbox: "LB, LT, RB, RT, Left, Right, Left, Right, LB, LT, RB, RT, Left, Right, Left, Right" }, desc: "Spawns player high up in the sky without a parachute!" }
+                ]
+            }
+        };
+
+        // Application State
+        let currentGameId = "gta5";
+        let currentPlatform = "Phone";
+        let currentCategory = "All";
+        let searchQuery = "";
+        let favorites = JSON.parse(localStorage.getItem('gta_cheat_favorites') || '[]');
+
+        // DOM Element Cache
+        const gameTabsContainer = document.getElementById('game-tabs-container');
+        const platformButtonsContainer = document.getElementById('platform-buttons');
+        const categoryFiltersContainer = document.getElementById('category-filters');
+        const cheatsGrid = document.getElementById('cheats-grid');
+        const emptyState = document.getElementById('empty-state');
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const gameTitleEl = document.getElementById('game-title');
+        const gameYearEl = document.getElementById('game-year');
+        const gameDescEl = document.getElementById('game-desc');
+        const gamePlatformsListEl = document.getElementById('game-platforms-list');
+        const bannerBgText = document.getElementById('banner-bg-text');
+        const countNumEl = document.getElementById('count-num');
+        const favCountEl = document.getElementById('fav-count');
+        const favCountMobileEl = document.getElementById('fav-count-mobile');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        // Categories List
+        const categories = ["All", "Weapons", "Player", "Vehicles", "Wanted Level", "World", "Fun"];
+
+        // Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderGameTabs();
+            switchGame('gta5');
+            updateFavCount();
+            setupEventListeners();
+        });
+
+        // Setup Event Handlers
+        function setupEventListeners() {
+            // Search Input handler
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                clearSearchBtn.classList.toggle('hidden', searchQuery === '');
+                renderCheats();
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearchBtn.classList.add('hidden');
+                renderCheats();
+            });
+
+            // Mobile sidebar toggle
+            mobileMenuBtn.addEventListener('click', toggleMobileSidebar);
+            sidebarOverlay.addEventListener('click', toggleMobileSidebar);
+        }
+
+        function toggleMobileSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+
+        // Render Sidebar Game Tabs
+        function renderGameTabs() {
+            gameTabsContainer.innerHTML = '';
+            
+            // Favorites special tab at top
+            const favTab = document.createElement('button');
+            favTab.className = `w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center justify-between group text-pink-400 hover:bg-pink-500/10 border border-transparent hover:border-pink-500/20`;
+            favTab.id = `tab-favorites`;
+            favTab.onclick = () => switchGame('favorites');
+            favTab.innerHTML = `
+                <div class="flex items-center space-x-2.5">
+                    <i class="fa-solid fa-heart text-pink-500 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-semibold">My Bookmarks</span>
+                </div>
+                <span class="text-xs bg-pink-500/20 px-2 py-0.5 rounded-full font-mono text-pink-300">Saved</span>
+            `;
+            gameTabsContainer.appendChild(favTab);
+
+            // Divider
+            const hr = document.createElement('div');
+            hr.className = "my-2 border-t border-slate-800/80";
+            gameTabsContainer.appendChild(hr);
+
+            // Games
+            Object.keys(gtaDatabase).forEach(key => {
+                const game = gtaDatabase[key];
+                const btn = document.createElement('button');
+                btn.id = `tab-${game.id}`;
+                btn.className = `w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center justify-between text-slate-300 hover:bg-slate-800/60 border border-transparent`;
+                btn.onclick = () => switchGame(game.id);
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-2.5 truncate">
+                        <i class="fa-solid fa-gamepad text-xs text-slate-500"></i>
+                        <span class="truncate font-rajdhani font-semibold text-base">${game.title}</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-slate-500 bg-slate-900/60 px-1.5 py-0.5 rounded">${game.year}</span>
+                `;
+                gameTabsContainer.appendChild(btn);
+            });
+        }
+
+        // Switch Active Game Tab
+        function switchGame(gameId) {
+            currentGameId = gameId;
+
+            // Close sidebar on mobile
+            if (!sidebar.classList.contains('-translate-x-full')) {
+                toggleMobileSidebar();
+            }
+
+            // Update UI tab selection styles
+            document.querySelectorAll('#game-tabs-container button').forEach(b => {
+                b.classList.remove('active-tab', 'border-yellow-500/50', 'bg-slate-800/80', 'text-yellow-400');
+            });
+            const activeTab = document.getElementById(`tab-${gameId}`);
+            if (activeTab) {
+                activeTab.classList.add('active-tab');
+            }
+
+            if (gameId === 'favorites') {
+                renderFavoritesView();
+                return;
+            }
+
+            const game = gtaDatabase[gameId];
+            if (!game) return;
+
+            // Set default platform to first available for game
+            currentPlatform = game.platforms[0];
+
+            // Update Header Banner
+            gameTitleEl.textContent = game.title;
+            gameYearEl.textContent = game.year;
+            gameDescEl.textContent = game.desc;
+            gamePlatformsListEl.textContent = game.platforms.join(' • ');
+            bannerBgText.textContent = game.bgText;
+
+            // Render Platforms Selector
+            renderPlatformButtons(game.platforms);
+
+            // Render Categories
+            renderCategoryFilters();
+
+            // Render Cheats
+            renderCheats();
+        }
+
+        // Render Platform Toggle Selector Buttons
+        function renderPlatformButtons(platforms) {
+            platformButtonsContainer.innerHTML = '';
+            platforms.forEach(plat => {
+                const btn = document.createElement('button');
+                const isActive = plat === currentPlatform;
+                btn.className = `px-3 py-1 rounded-lg text-xs font-bold font-mono transition-all ${
+                    isActive 
+                    ? 'bg-yellow-500 text-slate-950 shadow-md shadow-yellow-500/20' 
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                }`;
+                btn.textContent = plat;
+                btn.onclick = () => {
+                    currentPlatform = plat;
+                    renderPlatformButtons(platforms);
+                    renderCheats();
+                };
+                platformButtonsContainer.appendChild(btn);
+            });
+            document.getElementById('platform-selector-wrapper').classList.remove('hidden');
+        }
+
+        // Render Category Filter Buttons
+        function renderCategoryFilters() {
+            categoryFiltersContainer.innerHTML = '';
+            categories.forEach(cat => {
+                const isActive = cat === currentCategory;
+                const btn = document.createElement('button');
+                btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                    isActive
+                    ? 'bg-slate-200 text-slate-950 shadow-md font-extrabold'
+                    : 'bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                }`;
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    currentCategory = cat;
+                    renderCategoryFilters();
+                    renderCheats();
+                };
+                categoryFiltersContainer.appendChild(btn);
+            });
+        }
+
+        // Render Favorites List
+        function renderFavoritesView() {
+            gameTitleEl.textContent = "Your Bookmarked Cheats";
+            gameYearEl.textContent = "Saved";
+            gameDescEl.textContent = "Quick access to all your saved cheat codes across every GTA title.";
+            gamePlatformsListEl.textContent = "Saved locally in browser";
+            bannerBgText.textContent = "FAVS";
+            document.getElementById('platform-selector-wrapper').classList.add('hidden');
+
+            renderCategoryFilters();
+            renderCheats();
+        }
+
+        // Main Cheat List Renderer
+        function renderCheats() {
+            cheatsGrid.innerHTML = '';
+            let cheatList = [];
+
+            if (currentGameId === 'favorites') {
+                // Collect favorite items across all games
+                Object.values(gtaDatabase).forEach(g => {
+                    g.cheats.forEach(c => {
+                        if (favorites.includes(c.id)) {
+                            cheatList.push({ ...c, gameTitle: g.title, platforms: g.platforms });
+                        }
+                    });
+                });
+            } else {
+                cheatList = gtaDatabase[currentGameId].cheats;
+            }
+
+            // Apply Category Filter
+            if (currentCategory !== "All") {
+                cheatList = cheatList.filter(c => c.category === currentCategory);
+            }
+
+            // Apply Search Filter
+            if (searchQuery !== '') {
+                cheatList = cheatList.filter(c => {
+                    const matchTitle = c.title.toLowerCase().includes(searchQuery);
+                    const matchDesc = c.desc.toLowerCase().includes(searchQuery);
+                    const matchCategory = c.category.toLowerCase().includes(searchQuery);
+                    const matchCode = JSON.stringify(c.code).toLowerCase().includes(searchQuery);
+                    return matchTitle || matchDesc || matchCategory || matchCode;
+                });
+            }
+
+            countNumEl.textContent = cheatList.length;
+
+            if (cheatList.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            // Populate Grid
+            cheatList.forEach(cheat => {
+                const isFav = favorites.includes(cheat.id);
+                const platformCode = cheat.code[currentPlatform] || Object.values(cheat.code)[0] || "N/A";
+                const displayPlatform = cheat.code[currentPlatform] ? currentPlatform : Object.keys(cheat.code)[0];
+
+                const card = document.createElement('div');
+                card.className = "glass-card p-5 rounded-2xl flex flex-col justify-between space-y-4 relative group";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 font-rajdhani">
+                                    ${cheat.category}
+                                </span>
+                                ${cheat.gameTitle ? `<span class="text-xs font-semibold text-slate-400 font-mono">${cheat.gameTitle}</span>` : ''}
+                            </div>
+                            <button onclick="toggleFavorite('${cheat.id}')" class="text-slate-500 hover:text-pink-500 transition-colors p-1">
+                                <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart text-lg ${isFav ? 'text-pink-500' : ''}"></i>
+                            </button>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white font-rajdhani tracking-wide group-hover:text-yellow-400 transition-colors">
+                            ${cheat.title}
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            ${cheat.desc}
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 flex flex-col space-y-2">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                            <span>PLATFORM: <strong class="text-slate-200">${displayPlatform}</strong></span>
+                            <span class="text-[10px] text-slate-500">CLICK CODE TO COPY</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="font-mono text-xs md:text-sm text-yellow-300 font-bold tracking-wider break-all select-all">
+                                ${formatCheatCodeBadges(platformCode, displayPlatform)}
+                            </div>
+                            <button onclick="copyCode('${platformCode.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-lg bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 text-xs font-bold transition-all shrink-0 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cheatsGrid.appendChild(card);
+            });
+        }
+
+        // Format button symbols for console controllers
+        function formatCheatCodeBadges(codeStr, platform) {
+            if (!codeStr) return '';
+            
+            // Format phone numbers or text codes simply
+            if (platform === 'Phone' || platform === 'PC') {
+                return `<span class="bg-slate-800 px-2.5 py-1 rounded-md text-yellow-300 border border-slate-700 font-mono tracking-widest">${codeStr}</span>`;
+            }
+
+            // Convert comma separated string into key badge components
+            const parts = codeStr.split(',').map(p => p.trim());
+            return parts.map(part => {
+                let badgeClass = "btn-pc";
+                if (['PS1', 'PS2', 'PS3', 'PS4', 'PS5', 'PS', 'PSP'].includes(platform)) badgeClass = "btn-ps";
+                if (['Xbox', 'Xbox 360', 'Xbox Series'].includes(platform)) badgeClass = "btn-xbox";
+
+                return `<span class="btn-badge ${badgeClass}">${part}</span>`;
+            }).join('');
+        }
+
+        // Toggle Favorites in localStorage
+        function toggleFavorite(cheatId) {
+            if (favorites.includes(cheatId)) {
+                favorites = favorites.filter(id => id !== cheatId);
+                showToast("Cheat removed from bookmarks");
+            } else {
+                favorites.push(cheatId);
+                showToast("Cheat saved to bookmarks!");
+            }
+            localStorage.setItem('gta_cheat_favorites', JSON.stringify(favorites));
+            updateFavCount();
+            renderCheats();
+        }
+
+        // Update Favorites Counter Display
+        function updateFavCount() {
+            favCountEl.textContent = favorites.length;
+            favCountMobileEl.textContent = favorites.length;
+        }
+
+        // Copy Cheat Code Helper
+        function copyCode(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text);
+            } else {
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            }
+            showToast(`Copied: "${text}"`);
+        }
+
+        // Display Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2500);
+        }
+
+        // Reset All Active Search & Filters
+        function resetFilters() {
+            currentCategory = "All";
+            searchQuery = "";
+            searchInput.value = "";
+            clearSearchBtn.classList.add('hidden');
+            renderCategoryFilters();
+            renderCheats();
+        }
+    </script>
+</body>
+</html>
